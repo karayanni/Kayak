@@ -8,7 +8,7 @@
 //#![feature(alloc)]
 //#![feature(heap_api)]
 //#![feature(unique)]
-#![feature(const_fn)]
+//#![feature(const_fn)]
 // Used for cache alignment.
 #![feature(allocator_api)]
 #![feature(ptr_internals)]

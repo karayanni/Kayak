@@ -1,24 +1,24 @@
 ############################### CLIENT N/W CONFIG ##############################
 
 # The PCI address of the NIC the client is going to transmit and receive
-# packets on.
-nic_pci = "0000:07:00.0"
+# packets on. @@@@@
+nic_pci = "0000:03:00.1"
 
 # The MAC address of the NIC the client is going to transmit and receive
-# packets on.
-mac_address = "98:f2:b3:c8:d8:24"
+# packets on. @@@@@
+mac_address = "9c:dc:71:49:c8:91"
 
-# The IP address of the client (Not the one reported by ifconfig).
-ip_address = "128.110.218.170"
+# The IP address of the client (Not the one reported by ifconfig). @@@@@
+ip_address = "10.10.1.2"
 
 ############################### SERVER N/W CONFIG ##############################
 
 # The MAC address of the NIC the server is going to transmit and receive
-# packets on.
-server_mac_address = "98:f2:b3:c8:19:64"
+# packets on. @@@@
+server_mac_address = "9c:dc:71:5b:42:f1"
 
-# The IP address of the server (Not the one reported by ifconfig).
-server_ip_address = "128.110.218.180"
+# The IP address of the server (Not the one reported by ifconfig). @@@@
+server_ip_address = "10.10.1.1"
 
 # The number of server UDP ports to send requests to.
 server_udp_ports = 8

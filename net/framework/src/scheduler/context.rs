@@ -223,7 +223,7 @@ pub fn initialize_system(configuration: &NetbricksConfiguration) -> Result<NetBr
     let mut cores: HashSet<_> = configuration.cores.iter().cloned().collect();
     for port in &configuration.ports {
         print!("Handling Port Number: ");
-        println!(&port.name);
+        println!("{}", &port.name);
         if ctx.ports.contains_key(&port.name) {
             println!("Port {} appears twice in specification", port.name);
             return Err(

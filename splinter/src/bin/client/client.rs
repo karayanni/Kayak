@@ -71,6 +71,7 @@ where
     // This parameter decides the type of load the client generates; closed loop or open loop load.
     open_load: bool,
 
+    // NATIVE is like IS_RPC_ENABLED
     // If true, RPC requests corresponding to native get() and put() operations are sent out. If
     // false, invoke() based RPC requests are sent out.
     native: bool,
@@ -208,6 +209,7 @@ where
                 self.sent += 1;
             }
 
+            // MULTI FUCKING GET....
             OpCode::SandstormMultiGetRpc => {
                 let (tenant, n_keys, keys) = self.workload.get_multiget_request();
                 self.sender.send_multiget(

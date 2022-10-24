@@ -164,8 +164,11 @@ impl TaoSendRecv {
 
         // Pre-populate the extension name, opcode, and table id.
         ia_buff.extend_from_slice("tao".as_bytes());
+        // the operation code which is 2 in little endian.. hmm 2 is for assoc_get..?
         ia_buff.extend_from_slice(&unsafe { transmute::<u64, [u8; 8]>(2u64.to_le()) });
+        // the returned val id --> assoc type --> id
         ia_buff.extend_from_slice(&[0; 18]); // placeholder for id1 = 8, assoc_type = 2, id2 = 8.
+        // the key:
         ia_buff.extend_from_slice(&[4u8]);
         ia_buff.resize(len, 0);
 
@@ -240,17 +243,21 @@ impl TaoSendRecv {
         match self.native {
             // Native request.
             true => match o {
+                // this is a get
                 true => {
                     self.no_buff[0..size_of::<u32>()].copy_from_slice(&k);
                     self.sender.send_get(t, 1, &self.no_buff, curr);
                 }
 
+                // @@ This is Invocation for get range:
                 false => {
+                    // K will contian:
                     self.na_buff[0..size_of::<u32>()].copy_from_slice(&k);
                     self.sender.send_get(t, 2, &self.na_buff, curr);
                 }
             },
 
+            // NATIVE = FALSE, meaning no invocation
             // Invoke request. Add the key to the pre-populated payload.
             false => match o {
                 true => match self.combine {
@@ -259,8 +266,11 @@ impl TaoSendRecv {
                         self.sender.send_get(t, 1, &self.no_buff, curr);
                     }
 
+                    // here if not native and assoc request
+                    // K is the key which is 4 bytes (explains the 11..15 but why start from 11?)
                     false => {
                         self.io_buff[11..15].copy_from_slice(&k);
+                        // name len is 3Bytes + IO Buffer has the Key which is the payload I guess? where is the extension name??s
                         self.sender.send_invoke(t, 3, &self.io_buff, curr);
                     }
                 },
@@ -568,9 +578,17 @@ fn setup_send_recv<S>(
 }
 
 fn main() {
-    db::env_logger::init().expect("ERROR: failed to initialize logger!");
+    println!("Starting tao.rs");
 
+    println!("Trying to Init DB logger");
+    db::env_logger::init().expect("ERROR: failed to initialize logger!");
+    println!("Trying to Init DB logger - DONE");
+
+    println!("Trying to load configs");
     let config = config::ClientConfig::load();
+    println!("Trying to load configs - DONE");
+
+
     info!("Starting up Sandstorm client with config {:?}", config);
 
     // Setup Netbricks.

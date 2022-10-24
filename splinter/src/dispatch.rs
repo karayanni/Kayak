@@ -244,9 +244,9 @@ impl Sender {
             &self.req_ip_header,
             &self.req_udp_header,
             tenant,
-            name_len,
-            payload,
-            id,
+            name_len,    // the length of the extension's NAME
+            payload,     // extension_name + arguments for the invocation
+            id,          // the ID of the extension or the ID of this specific invocation (the request)
             self.get_dst_port(tenant),
             // (id & 0xffff) as u16 & (self.dst_ports - 1),
         );

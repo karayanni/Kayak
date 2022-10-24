@@ -71,6 +71,8 @@ fn load_config(filename: &str) -> ServerConfig {
 
 /// Load a config from `filename` otherwise return a default structure.
 fn load_config_cl(filename: &str) -> ClientConfig {
+    println!("load_config_cl starting");
+
     let mut contents = String::new();
 
     let _ = File::open(filename).and_then(|mut file| file.read_to_string(&mut contents));
@@ -82,6 +84,8 @@ fn load_config_cl(filename: &str) -> ClientConfig {
             ClientConfig::default()
         }
     }
+
+    println!("load_config_cl Finished");
 }
 
 /// All of the various configuration options needed to run a server, both optional and required.

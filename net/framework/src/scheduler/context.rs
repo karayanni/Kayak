@@ -54,6 +54,7 @@ impl NetBricksContext {
 
     #[inline]
     pub fn start_scheduler(&mut self, core: i32) {
+        println!("Starting start_scheduler");
         let builder = thread::Builder::new();
         let (sender, receiver) = sync_channel(8);
         self.scheduler_channels.insert(core, sender);
@@ -216,10 +217,13 @@ impl NetBricksContext {
 
 /// Initialize the system from a configuration.
 pub fn initialize_system(configuration: &NetbricksConfiguration) -> Result<NetBricksContext> {
+    println!("Starting initialize_system");
     init_system(configuration);
     let mut ctx: NetBricksContext = Default::default();
     let mut cores: HashSet<_> = configuration.cores.iter().cloned().collect();
     for port in &configuration.ports {
+        print!("Handling Port Number: ");
+        println!(&port.name);
         if ctx.ports.contains_key(&port.name) {
             println!("Port {} appears twice in specification", port.name);
             return Err(
@@ -288,5 +292,6 @@ pub fn initialize_system(configuration: &NetbricksConfiguration) -> Result<NetBr
         ctx.siblings.insert(ctx.active_cores[last], sibling[0].clone());
     }
 
+    println!("Finished initialize_system");
     Ok(ctx)
 }

@@ -817,6 +817,7 @@ fn main() {
     let config = config::ClientConfig::load();
     info!("Starting up Sandstorm client with config {:?}", config);
 
+    // Master is the kv store manager - manages extensions, tenants etc..
     let masterservice = Arc::new(Master::new());
 
     // Create tenants with extensions.

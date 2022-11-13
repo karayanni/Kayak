@@ -635,6 +635,9 @@ fn main() {
             .expect("Failed to initialize receive side.");
     }
 
+    println!("Starting the clients in 5 seconds.");
+    std::thread::sleep(std::time::Duration::from_secs(5));
+
     // Run the client.
     net_context.execute();
 

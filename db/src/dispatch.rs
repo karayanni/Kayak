@@ -259,6 +259,9 @@ where
     fn try_receive_packets(&self) -> Option<Vec<Packet<NullHeader, EmptyMetadata>>> {
         // Allocate a vector of mutable MBuf pointers into which packets will
         // be received.
+
+        info!("trying to recevie packets");
+
         let mut mbuf_vector = Vec::with_capacity(self.max_rx_packets as usize);
 
         // This unsafe block is needed in order to populate mbuf_vector with a
@@ -293,6 +296,8 @@ where
                     for mbuf in mbuf_vector.iter_mut() {
                         recvd_packets.push(packet_from_mbuf_no_increment(*mbuf, 0));
                     }
+
+                    info!("recevied some packets!");
 
                     return Some(recvd_packets);
                 }

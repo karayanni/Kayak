@@ -487,10 +487,19 @@ where
                         }
 
                         p.free_packet();
+
+                        info!("received some packed with opcode SandstormCommitRpc");
+                        info!(packet.get_header().to_string());
+                        info!(packet.get_payload().to_string());
+
                         continue;
                     }
 
-                    _ => {}
+                    _ => {
+                        info!("received some packed but its opcode isn't SandstormCommitRpc");
+                        info!(packet.get_header().to_string());
+                        info!(packet.get_payload().to_string());
+                    }
                 }
 
                 if self.native == true {
@@ -560,6 +569,9 @@ where
                     // If the status is StatusOk then add the stamp to the latencies and
                     // free the packet.
                     RpcStatus::StatusOk => {
+                        info!("received some with OpCode SandstormInvokeRpc and status OK!");
+                        info!(packet.get_header().to_string());
+                        info!(packet.get_payload().to_string());
                         self.latencies.push(curr - timestamp);
                         self.manager.borrow_mut().delete_task(timestamp);
                         self.recvd += 1;
@@ -830,7 +842,7 @@ fn main() {
     let mut net_context = setup::config_and_init_netbricks(&config);
 
     // Setup the client pipeline.
-    net_context.start_schedulers();
+    net_context.start_schedulers() ;
 
     // The core id's which will run the sender and receiver threads.
     // XXX The following array heavily depend on the set of cores

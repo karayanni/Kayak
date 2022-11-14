@@ -489,16 +489,14 @@ where
                         p.free_packet();
 
                         info!("received some packed with opcode SandstormCommitRpc");
-                        info!(packet.get_header().to_string());
-                        info!(packet.get_payload().to_string());
+                        info!("{}", packet.get_header().to_string());
 
                         continue;
                     }
 
                     _ => {
                         info!("received some packed but its opcode isn't SandstormCommitRpc");
-                        info!(packet.get_header().to_string());
-                        info!(packet.get_payload().to_string());
+                        info!("{}", packet.get_header().to_string());
                     }
                 }
 
@@ -570,8 +568,7 @@ where
                     // free the packet.
                     RpcStatus::StatusOk => {
                         info!("received some with OpCode SandstormInvokeRpc and status OK!");
-                        info!(packet.get_header().to_string());
-                        info!(packet.get_payload().to_string());
+                        info!("{}", packet.get_header().to_string());
                         self.latencies.push(curr - timestamp);
                         self.manager.borrow_mut().delete_task(timestamp);
                         self.recvd += 1;
